@@ -1,0 +1,32 @@
+<h1>My Addresses</h1>
+
+<table>
+    <tr>
+      <th>Nickname</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>Edit</th>
+    </tr>
+    <% @user.addresses.each do |address| %>
+        <tr>
+          <section id = "address-<%=address.id%>">
+            <td><%= address.nickname %></td>
+            <td><p><%= address.name %></p></td>
+            <td><p><%= address.address %></p></td>
+            <td><p><%= address.city %></p></td>
+            <td><p><%= address.state %></p></td>
+            <td><p><%= address.zip %></p></td>
+            <% if address.has_no_shipped_orders? %>
+                <td><p><%= link_to  "Edit Address", edit_address_path(address) %></p></td>
+            <% else %>
+                <td><p>You can't edit or change addy with shipped orders, dawg.</p></td>
+            <% end %>
+        </section>
+        </tr>
+      <% end %>
+  </table>
+
+  <%= link_to  "Add a New Address", new_address_path %>

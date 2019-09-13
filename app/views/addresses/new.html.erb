@@ -1,0 +1,19 @@
+<center>
+    <h1>Add a New Address!</h1>
+    <%= form_for [@user, @address], url: profile_addresses_path do |f| %>
+      <%= f.label :nickname %>
+      <%= f.text_field :nickname %>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+      <%= f.label :address %>
+      <%= f.text_field :address %>
+      <%= f.label :city %>
+      <%= f.text_field :city %>
+      <%= f.label :state %>
+      <%= f.text_field :state %>
+      <%= f.label :zip %>
+      <%= f.text_field :zip %>
+      <%= f.submit 'Submit' %>
+  <% end %>
+
+</center>

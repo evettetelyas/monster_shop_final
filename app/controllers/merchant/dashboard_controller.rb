@@ -25,9 +25,11 @@ class Merchant::DashboardController < Merchant::BaseController
   def order_show
     if current_admin?
       @order = Order.find(params[:id])
+      @address = @order.address
       @merchant_items = @order.merchant_items(Merchant.find(session[:merchant_id]))
     else
       @order = Order.find(params[:id])
+      @address = @order.address
       user = User.find(session[:user_id])
       @merchant_items = @order.merchant_items(user.merchant)
     end

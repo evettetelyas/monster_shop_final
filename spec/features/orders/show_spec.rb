@@ -4,8 +4,10 @@ describe 'user order show page' do
   before :each do
     @tire = create(:item, inventory: 10, price: 35)
     @paper = create(:item, inventory: 10, price: 40)
-    @order = create(:order)
-    @order_2 = create(:order, status: 2)
+    @user = create(:user)
+    @address = create(:address)
+    @order = create(:order, address: @address, user: @user)
+    @order_2 = create(:order, address: @address, user: @user, status: 2)
     @item_order_1 = @order.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
     @item_order_2 = @order.item_orders.create!(item: @paper, price: @paper.price, quantity: 4)
 
@@ -27,11 +29,11 @@ describe 'user order show page' do
 
     expect(page).to have_content(@order.id)
     expect(page).to have_content(@order.status)
-    expect(page).to have_content(@order.name)
-    expect(page).to have_content(@order.address)
-    expect(page).to have_content(@order.city)
-    expect(page).to have_content(@order.state)
-    expect(page).to have_content(@order.zip)
+    expect(page).to have_content(@address.name)
+    expect(page).to have_content(@address.address)
+    expect(page).to have_content(@address.city)
+    expect(page).to have_content(@address.state)
+    expect(page).to have_content(@address.zip)
 
     within "#item-#{@item_order_1.item_id}" do
       expect(page).to have_link(@item_order_1.item.name)

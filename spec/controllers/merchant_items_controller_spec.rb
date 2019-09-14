@@ -6,9 +6,10 @@ RSpec.describe "Actions in the merchant/items_controller.rb" do
         @pull_toy = @dog_shop.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
 
         @user = create(:user)
+        @address = create(:address)
         @sue = @dog_shop.users.create(name: 'Sue', address: '12345 C St', city: 'Los Angeles', state: 'CA', zip: 90210, email: 'sue@email.com', password: 'sue', password_confirmation: 'sue', role: 3)
 
-        @order_1 = @user.orders.create(name: "Evette", address: "123 street", city: "Denver", state: "CO", zip: "12345")
+        @order_1 = @user.orders.create(address: @address)
         @io1 = ItemOrder.create(item: @pull_toy, order: @order_1, price: @pull_toy.price, quantity: 5)
 
         visit "/login"

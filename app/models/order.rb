@@ -1,5 +1,6 @@
 class Order <ApplicationRecord
-  validates_presence_of :name, :street_address, :city, :state, :zip, :status
+  # validates_presence_of :name, :street_address, :city, :state, :zip, :status
+  validates_presence_of :status
 
   has_many :item_orders
   has_many :items, through: :item_orders

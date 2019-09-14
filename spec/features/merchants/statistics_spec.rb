@@ -17,9 +17,11 @@ RSpec.describe 'merchant show page', type: :feature do
       @dog_bone = @brian.items.create(name: "Dog Bone", description: "They'll love it!", price: 20, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
 
       @user = create(:user)
-      @order_1 = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
-      @order_2 = @user.orders.create!(name: 'Brian', address: '123 Zanti St', city: 'Denver', state: 'CO', zip: 80204)
-      @order_3 = @user.orders.create!(name: 'Mike', address: '123 Dao St', city: 'Denver', state: 'CO', zip: 80210)
+      address_1 = create(:address, city: "Denver")
+      address_2 = create(:address, city: "Hershey")
+      @order_1 = @user.orders.create!(address: address_1)
+      @order_2 = @user.orders.create!(address: address_2)
+      @order_3 = @user.orders.create!(address: address_1)
 
       @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
       @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)

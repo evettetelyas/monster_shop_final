@@ -20,6 +20,7 @@ RSpec.describe("New Order Page") do
       visit "/cart"
 
       user = create(:user)
+      address = create(:address, user: user)
 
       click_on "log in"
 

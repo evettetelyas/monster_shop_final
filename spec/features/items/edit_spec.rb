@@ -13,6 +13,7 @@ describe 'As a visitor or regular user' do
 
     it 'User cant see edit item button' do
       user = create(:user)
+      address = create(:address, user: user)
 
       visit '/'
 

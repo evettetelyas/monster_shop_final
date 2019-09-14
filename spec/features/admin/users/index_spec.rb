@@ -3,9 +3,13 @@ require 'rails_helper'
 describe 'admin users index' do
   before :each do
     @admin = create(:user, role: 4)
+    address = create(:address, user: @admin)
     @user_1 = create(:user)
+    address_1 = create(:address, user: @user_1)
     @user_2 = create(:user, role: 2)
+    address_2 = create(:address, user: @user_2)
     @user_3 = create(:user, role: 3)
+    address_3 = create(:address, user: @user_3)
     @users = [@user_1,@user_2,@user_3]
 
     visit login_path

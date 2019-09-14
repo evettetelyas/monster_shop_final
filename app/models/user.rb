@@ -1,6 +1,6 @@
 class User < ApplicationRecord
     before_create { generate_token(:auth_token) }
-    validates_presence_of :name, :address, :city, :state, :zip
+    validates_presence_of :name 
     validates_confirmation_of :password, require: true
     validates :email, presence: true, uniqueness: true
     validates :role, numericality: {only_integer: true, greater_than_or_equal_to: 0}

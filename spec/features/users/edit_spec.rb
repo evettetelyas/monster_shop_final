@@ -3,6 +3,7 @@ require 'rails_helper'
 describe 'User clicks Edit Profile link in their profile' do
   it 'Takes them to a prepopulated form to edit their info' do
     user = create(:user)
+    address = create(:address, user: user)
 
     visit '/login'
 
@@ -43,7 +44,8 @@ describe 'User clicks Edit Profile link in their profile' do
 
   it 'They cant leave any fields blank in edit form' do
     user = create(:user)
-
+    address = create(:address, user: user)
+    
     visit '/login'
 
     within "#login-form" do

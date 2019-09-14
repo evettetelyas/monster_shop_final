@@ -5,19 +5,26 @@ class UsersController <ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
-      @address = @user.addresses.create!(address_params)
+    @address = @user.addresses.new(address_params)
+    if @user.save && @address.save
       session[:user_id] = @user.id
       flash[:success] = "Welcome, #{@user.name}!"
       redirect_to "/profile"
-    else
+    elsif @user.save && !@address.save
+      flash[:error] = @address.errors.full_messages.uniq.to_sentence
+      render :new
+    elsif !@user.save && @address.save
       flash[:error] = @user.errors.full_messages.uniq.to_sentence
+      render :new
+    else
+      flash[:error] = (@user.errors.full_messages + @address.errors.full_messages).uniq.to_sentence
       render :new
     end
   end
 
   def edit
     @user = User.find_by(id: session[:user_id])
+    @address = @user.addresses.first
   end
 
   def show
@@ -27,19 +34,28 @@ class UsersController <ApplicationController
       if params[:id] && current_admin?
         @user = User.find(params[:id])
         @admin = User.find_by(id: session[:user_id])
+        @address = @user.addresses.first
       else
         @user = User.find_by(id: session[:user_id])
+        @address = @user.addresses.first
       end
     end
   end
 
   def update
     user = User.find(session[:user_id])
-    if user.update(profile_params)
+    address = user.addresses.first
+    if user.update(profile_params) && address.update(update_address_params)
       flash[:success] = 'Profile updated'
       redirect_to '/profile'
-    else
+    elsif !user.update(profile_params) && address.update(update_address_params)
       flash[:error] = user.errors.full_messages.uniq.to_sentence
+      redirect_to '/profile/edit'
+    elsif user.update(profile_params) && !address.update(update_address_params)
+      flash[:error] = address.errors.full_messages.uniq.to_sentence
+      redirect_to '/profile/edit'
+    else
+      flash[:error] = (address.errors.full_messages + user.errors.full_messages).uniq.to_sentence
       redirect_to '/profile/edit'
     end
   end
@@ -85,7 +101,7 @@ class UsersController <ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name,:address,:city,:state,:zip,:email,:password,:password_confirmation)
+    params.require(:user).permit(:name,:email,:password,:password_confirmation)
   end
 
   def address_params
@@ -94,5 +110,9 @@ class UsersController <ApplicationController
 
   def profile_params
     params.require(:users_edit).permit(:name,:address,:city,:state,:zip,:email)
+  end
+
+  def update_address_params
+    params.require(:users_edit).permit(:name,:address,:city,:state,:zip)
   end
 end

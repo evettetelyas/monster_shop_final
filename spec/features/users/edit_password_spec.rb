@@ -3,6 +3,7 @@ require 'rails_helper'
 describe 'User clicks Change Password in their profile' do
   before :each do
     @user = create(:user)
+    address = create(:address, user: @user)
 
     visit '/login'
 

@@ -12,3 +12,6 @@ Monster Shop is a rails a Ruby on Rails Web App designed with an MVC Framework. 
 Monster Shop was designed to be a fun and easy to user interface. Flash messages are displayed for all happy and sad path scenarios, and always let the user know when the app has recieved unexpected input. All passwords used in Monster Shop are hashed using BCrypt and raw password are never stored in the database. 
 
 Logic is carefully organized utilizing MVC structure. All database logic is contained within the model, and views never contain computation. Monster shop utlizes view partials to ensure the source code is as DRY as possible. 
+
+# Database Schema
+![db-schema](https://i.ibb.co/KhKgcmN/Untitled.png)

@@ -22,6 +22,7 @@ RSpec.describe 'Cart show' do
       visit "/cart"
 
       user = create(:user)
+      address = create(:address, user: user)
 
       click_on "log in"
 

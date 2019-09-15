@@ -26,7 +26,8 @@ class Merchant < ApplicationRecord
   end
 
   def distinct_cities
-    orders.distinct
+    orders.joins(:address)
+      .distinct
       .pluck(:city)
   end
 

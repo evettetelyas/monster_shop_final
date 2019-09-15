@@ -9,4 +9,8 @@ class UserMailer < ApplicationMailer
     @user = User.find_by_email(user.email)
     mail :to => user.email, :subject => "Password Reset"
   end
+
+  # def new_order(user)
+  #   mail :to => user.email, :subject => "New Order"
+  # end
 end

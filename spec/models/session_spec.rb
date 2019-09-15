@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "sessions" do
     it "show if a user is already logged in" do
         user = create(:user)
+        address = create(:address, user: user)
 
         visit "/login"
         fill_in "Email", with: user.email
@@ -16,6 +17,7 @@ RSpec.describe "sessions" do
 
     it "show if a merchant is already logged in" do
         user = create(:user, role: 2)
+        address = create(:address, user: user)
 
         visit "/login"
         fill_in "Email", with: user.email
@@ -29,6 +31,7 @@ RSpec.describe "sessions" do
 
     it "show if an admin is already logged in" do
         user = create(:user, role: 4)
+        address = create(:address, user: user)
 
         visit "/login"
         fill_in "Email", with: user.email
@@ -43,6 +46,7 @@ RSpec.describe "sessions" do
     describe "login" do
         it "logs a user in" do
             user = create(:user)
+            address = create(:address, user: user)
 
             visit "/login"
             fill_in "Email", with: user.email
@@ -55,6 +59,7 @@ RSpec.describe "sessions" do
 
         it "logs a merchant in" do
             user = create(:user, role: 2)
+            address = create(:address, user: user)
 
             visit "/login"
             fill_in "Email", with: user.email
@@ -67,6 +72,7 @@ RSpec.describe "sessions" do
 
         it "logs an admin in" do
             user = create(:user, role: 4)
+            address = create(:address, user: user)
 
             visit "/login"
             fill_in "Email", with: user.email
@@ -79,6 +85,7 @@ RSpec.describe "sessions" do
 
         it "wont logs in with bad credentials" do
             user = create(:user, role: 4)
+            address = create(:address, user: user)
 
             visit "/login"
             fill_in "Email", with: user.email
@@ -93,6 +100,7 @@ RSpec.describe "sessions" do
     describe "logout" do
         it "logs a user out" do
             user = create(:user, role: 4)
+            address = create(:address, user: user)
 
             visit "/login"
             fill_in "Email", with: user.email

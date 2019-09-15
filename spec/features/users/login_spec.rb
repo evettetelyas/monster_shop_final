@@ -4,6 +4,7 @@ describe 'user clicks login' do
   it "logs them in" do
 
     user = create(:user)
+    address = create(:address, user: user)
 
     visit '/'
 
@@ -40,6 +41,7 @@ describe 'user clicks login' do
 
   it "won't log in with bad password" do
     user = create(:user)
+    address = create(:address, user: user)
 
     visit '/login'
 

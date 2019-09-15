@@ -1,13 +1,14 @@
 <section class="user-profile">
   <h2><%= @user.name %>'s Profile</h2>
   <p style="font-weight:bold;">Address:</p>
-  <p><%= @user.address %></p>
-  <p><%= "#{@user.city}, #{@user.state} #{@user.zip}" %></p>
+  <p><%= @address.address %></p>
+  <p><%= "#{@address.city}, #{@address.state} #{@address.zip}" %></p>
   <p><span style="font-weight:bold;">Email: </span><%= @user.email %></p>
   <br>
     <% unless @admin %>
       <%= link_to 'Edit Profile', '/profile/edit', class: 'btn-small' %>
       <%= link_to 'Change Password', '/profile/edit_password', class: 'btn-small' %>
       <%= link_to 'My Orders', '/profile/orders', class: 'btn-small' %>
+      <%= link_to 'My Addresses', '/profile/addresses', class: 'btn-small' %>
     <% end %>
 </section>

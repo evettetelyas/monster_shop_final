@@ -11,7 +11,7 @@
         <tr>
           <section id='<%= "#{id_tag}-#{order.id}" %>'>
             <td><%= link_to "Order ##{order.id}", "/admin/users/#{order.user.id}/orders/#{order.id}", class: 'reg-link' %></td>
-            <td><%= order.name %></td>
+            <td><%= order.address.name %></td>
             <td><%= order.created_at.strftime('%D') %></td>
           </section>
         </tr>

@@ -3,6 +3,7 @@ require 'rails_helper'
 describe 'User logs in and tries to visit /login' do
   it 'Redirects a user to their profile' do
     user = create(:user)
+    address = create(:address, user: user)
 
     visit '/login'
 

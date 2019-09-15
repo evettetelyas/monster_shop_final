@@ -4,6 +4,7 @@ describe "logout user" do
   it "logs them out" do
 
     user = create(:user)
+    address = create(:address, user: user)
 
     visit '/login'
 

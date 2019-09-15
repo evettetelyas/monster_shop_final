@@ -8,7 +8,9 @@ describe 'merchant index as an admin' do
     @item = create(:item, merchant_id: @merchant_1.id)
     @merchants = [@merchant_1,@merchant_2,@merchant_3]
     @user = create(:user)
+    address = create(:address, user: @user)
     @admin = create(:user, role: 4)
+    admin_addy = create(:address, user: @admin)
 
     visit login_path
 

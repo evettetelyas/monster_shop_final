@@ -65,6 +65,7 @@ RSpec.describe 'Cart show' do
         expect(page).to_not have_link("Checkout")
 
         user = create(:user)
+        address = create(:address, user: user)
 
         click_on "log in"
 

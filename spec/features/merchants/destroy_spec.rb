@@ -48,6 +48,7 @@ RSpec.describe "As a visitor" do
       pulltoy = brian.items.create(name: "Pulltoy", description: "It'll never fall apart!", price: 14, image: "https://www.valupets.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/l/a/large_rubber_dog_pull_toy.jpg", inventory: 7)
 
       user = create(:user)
+      address = create(:address, user: user)
 
       click_on 'Log Out'
 
@@ -72,7 +73,7 @@ RSpec.describe "As a visitor" do
       visit "/cart"
       click_on "Checkout"
 
-      click_link "Create Order"
+      click_on "Create Order"
 
       visit "/merchants/#{meg.id}"
       expect(page).to_not have_link("Delete Merchant")

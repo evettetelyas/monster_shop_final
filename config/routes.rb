@@ -24,7 +24,8 @@ Rails.application.routes.draw do
   patch '/cart/:item_id/:increment_decrement', to: 'cart#increment_decrement'
 
   resources :orders, only: [:new, :create]
-  patch '/orders/:id', to: 'orders#cancel', as: :order_cancel
+  patch '/orders/:id/cancel', to: 'orders#cancel', as: :order_cancel
+  patch '/orders/:id/update_address', to: 'orders#update_address', as: :order_update
   get '/orders/:order_id', to: 'orders#show', as: :order
   patch '/orders/:order_id/ship', to: 'orders#ship', as: :shipped_order
   get '/profile/orders/:order_id', to: 'orders#show'
@@ -37,6 +38,14 @@ Rails.application.routes.draw do
   patch '/profile/edit', to: 'users#update'
   get '/profile/edit_password', to: 'users#edit_password'
   patch '/profile/edit_password', to: 'users#update_password'
+
+  get '/profile/addresses', to: 'addresses#index'
+  delete '/profile/addresses/:id', to: 'addresses#destroy', as: :delete_address
+  get '/profile/addresses/new', to: 'addresses#new', as: :new_address
+  get '/profile/addresses/:id', to: 'addresses#show', as: :address_show
+  post '/profile/addresses', to: 'addresses#create'
+  patch '/profile/addresses/:id', to: 'addresses#update'
+  get '/profile/addresses/:id/edit', to: 'addresses#edit', as: :edit_address
 
   get '/merchant', to: 'merchant/dashboard#index', as: :merchant_dash
   get '/merchant/items', to: 'merchant/dashboard#items'

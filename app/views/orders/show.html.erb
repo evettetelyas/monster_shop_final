@@ -13,11 +13,11 @@
     <tr>
       <td><p><%= @order.id %> </p></td>
       <td><p><%= @order.status %></p></td>
-      <td><p><%= @order.name %> </p></td>
-      <td><p><%= @order.address %> </p></td>
-      <td><p><%= @order.city %> </p></td>
-      <td><p><%= @order.state %> </p></td>
-      <td><p><%= @order.zip %> </p></td>
+      <td><p><%= @address.name %> </p></td>
+      <td><p><%= @address.address %> </p></td>
+      <td><p><%= @address.city %> </p></td>
+      <td><p><%= @address.state %> </p></td>
+      <td><p><%= @address.zip %> </p></td>
     </tr>
   </table>
 </section>
@@ -61,6 +61,11 @@
 <% if @order.pending? %>
   <section>
     <%= button_to 'Cancel Order', order_cancel_path(@order), method: :patch %>
+    <h1>- or - </h1>
+    <%= form_tag(order_update_path(@order), method: :patch) do %>
+    <%= select_tag "address", options_from_collection_for_select(@addresses, "id", "nickname") %>
+    <%= submit_tag "Update Address", class: 'btn', id: 'green-btn' %>
+    <% end %>
   </section>
 <% end %>
 <% if current_admin? && @order.status == 'packaged' %>

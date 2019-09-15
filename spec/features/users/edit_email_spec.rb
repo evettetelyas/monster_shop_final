@@ -10,7 +10,9 @@ require 'rails_helper'
 describe 'User edits their profile' do
   it 'Cannot use an email of a user who already registered' do
     bob = create(:user, email: 'bob@email.com')
+    bob_add = create(:address, user: bob)
     bob_2 = create(:user)
+    bob_2_add = create(:address, user: bob_2)
 
     visit '/login'
 

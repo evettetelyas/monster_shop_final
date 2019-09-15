@@ -20,4 +20,17 @@
   <% end %>
 </table>
 <h3 align = "right">Total: <%= number_to_currency(cart.total)%></h3>
-<p align = "right"><%= link_to "Create Order", orders_path,  class: 'btn', id: 'green-btn', method: :post %></p>
+
+<center>
+  <section id="submit-order-with-address">
+    <% if @addresses.empty? %>
+      <h3><%= link_to "Add an Address to Checkout", "/profile/addresses/new", class: "btn-small" %></h3>
+    <% else %>
+    <%= form_tag(orders_path) do %>
+      <h3>Select an address:</h3>
+      <%= select_tag "address", options_from_collection_for_select(@addresses, "id", "nickname") %>
+      <%= submit_tag "Create Order", class: 'btn', id: 'green-btn' %>
+      <% end %>
+    <% end %>
+  </section>
+</center>

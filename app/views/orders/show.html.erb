@@ -62,7 +62,7 @@
   <section>
     <%= button_to 'Cancel Order', order_cancel_path(@order), method: :patch %>
     <% if session[:user_id] == @order.user_id %>
-        <h1>- or - </h1>
+        <h1>- or update shipping address - </h1>
         <%= form_tag(order_update_path(@order), method: :patch) do %>
         <%= select_tag "address", options_from_collection_for_select(@addresses, "id", "nickname") %>
         <%= submit_tag "Update Address", class: 'btn', id: 'green-btn' %>

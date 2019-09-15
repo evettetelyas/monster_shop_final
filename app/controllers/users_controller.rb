@@ -26,12 +26,13 @@ class UsersController <ApplicationController
     unless session[:user_id]
       render file: "/public/404"
     else
-      if params[:id] && current_admin?
+      if !params[:id].nil? && current_admin?
         @user = User.find(params[:id])
-        @admin = User.find_by(id: session[:user_id])
+        @admin = User.find(session[:user_id])
         @address = @user.addresses.first
       else
-        @user = User.find_by(id: session[:user_id])
+        @user = User.find(session[:user_id])
+        binding.pry
         @address = @user.addresses.first
       end
     end

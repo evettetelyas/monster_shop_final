@@ -17,7 +17,8 @@ describe User, type: :model do
   describe "model methods" do
     before :each do
       @dog_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
-      @sue = @dog_shop.users.create(name: 'Sue', address: '12345 C St', city: 'Los Angeles', state: 'CA', zip: 90210, email: 'sue@email.com', password: 'sue', password_confirmation: 'sue', role: 3)
+      @sue = @dog_shop.users.create(name: 'Sue', email: 'sue@email.com', password: 'sue', password_confirmation: 'sue', role: 3)
+      @sue_addy = @sue.addresses.create(name: 'Sue', address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: '80210')
     end
 
     it "should confirm if a user works at a merchant" do
@@ -26,6 +27,10 @@ describe User, type: :model do
       fill_in "Password", with: @sue.password
 
       expect(@sue.works_here?(@dog_shop.id)).to be true
+    end
+
+    it "should send password reset" do
+      @sue.send_password_reset
     end
   end
 end

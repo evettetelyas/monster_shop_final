@@ -15,5 +15,5 @@
       <%= f.text_field :zip %>
       <%= f.submit 'Submit' %>
   <% end %>
-  <h1><%= link_to  "Delete Address", "/profile/addresses/#{@address.id}", method: :delete %></h1>
+  <h1><%= link_to  "Delete Address", "/profile/addresses/#{@address.id}", method: :delete, class: 'btn-small' %></h1>
 </center>

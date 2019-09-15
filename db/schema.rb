@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20190914153309) do
   enable_extension "plpgsql"
 
   create_table "addresses", force: :cascade do |t|
-    t.string "nickname", default: "home"
+    t.string "nickname", default: "default nickname"
     t.string "name"
     t.string "address"
     t.string "city"

@@ -9,8 +9,6 @@ class Address < ApplicationRecord
     end
 
     def has_pending_orders?
-        return true unless (orders.where(status: "pending").empty? &&
-        orders.where(status: "shipped").empty? &&
-        orders.where(status: "cancelled").empty?)
+        return true unless orders.empty?
     end
 end

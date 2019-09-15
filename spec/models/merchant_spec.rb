@@ -68,7 +68,7 @@ describe Merchant, type: :model do
 
     it '#pending_orders' do
       user = create(:user)
-      address = create(:address)
+      address = create(:address, user: user)
       order_1 = user.orders.create!(address: address)
       order_2 = user.orders.create!(address: address)
       order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)

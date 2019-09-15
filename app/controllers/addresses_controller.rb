@@ -17,6 +17,9 @@ class AddressesController < ApplicationController
     def create
         user = User.find(session[:user_id])
         address = user.addresses.new(address_params)
+        if address.nickname == ""
+            address.update(nickname: "default nickname")
+        end
         if address.save
             flash[:success] = "Your new address has been added"
             redirect_to "/profile/addresses"
@@ -33,6 +36,9 @@ class AddressesController < ApplicationController
     def update
         @address = Address.find(params[:id])
         @address.update(address_params)
+        if @address.nickname == ""
+            @address.update(nickname: "default nickname")
+        end
         if @address.save
             flash[:success] = "Your address has been updated"
             redirect_to "/profile/addresses"
@@ -45,7 +51,7 @@ class AddressesController < ApplicationController
     def destroy
         address = Address.find(params[:id])
         if address.has_pending_orders?
-            flash[:error] = "You can't delete an address with pending, cancelled, or shipped orders, yo."
+            flash[:error] = "You can't delete an address used in previous orders, dawg"
             redirect_to "/profile/addresses"
         else
             address.destroy

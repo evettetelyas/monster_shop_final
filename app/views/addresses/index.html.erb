@@ -20,7 +20,7 @@
             <td><p><%= address.state %></p></td>
             <td><p><%= address.zip %></p></td>
             <% if address.has_no_shipped_orders? %>
-                <td><p><%= link_to  "Edit Address", edit_address_path(address) %></p></td>
+                <td><p><%= link_to  "Edit Address", edit_address_path(address), class: 'reg-link' %></p></td>
             <% else %>
                 <td><p>You can't edit or change addy with shipped orders, dawg.</p></td>
             <% end %>
@@ -28,5 +28,5 @@
         </tr>
       <% end %>
   </table>
-
-  <%= link_to  "Add a New Address", new_address_path %>
+  <br><br>
+  <center><%= link_to  "Add a New Address", new_address_path, class: 'btn-small' %></center>

@@ -6,16 +6,11 @@ class UsersController <ApplicationController
   def create
     @user = User.new(user_params)
     @address = @user.addresses.new(address_params)
+    @address.update(nickname: "home")
     if @user.save && @address.save
       session[:user_id] = @user.id
       flash[:success] = "Welcome, #{@user.name}!"
       redirect_to "/profile"
-    elsif @user.save && !@address.save
-      flash[:error] = @address.errors.full_messages.uniq.to_sentence
-      render :new
-    elsif !@user.save && @address.save
-      flash[:error] = @user.errors.full_messages.uniq.to_sentence
-      render :new
     else
       flash[:error] = (@user.errors.full_messages + @address.errors.full_messages).uniq.to_sentence
       render :new

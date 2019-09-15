@@ -32,7 +32,6 @@ class UsersController <ApplicationController
         @address = @user.addresses.first
       else
         @user = User.find(session[:user_id])
-        binding.pry
         @address = @user.addresses.first
       end
     end

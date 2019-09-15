@@ -75,17 +75,4 @@ class OrdersController <ApplicationController
     flash[:success] = "Your address has been updated"
     redirect_to "/profile/orders"
   end
-
-  private
-
-  # def user_info(address)
-  #   info = Hash.new
-  #   info[:name] = address.name
-  #   info[:street_address] = address.address
-  #   info[:city] = address.city
-  #   info[:state] = address.state
-  #   info[:zip] = address.zip
-  #   info[:address_id] = address.id
-  #   info
-  # end
 end

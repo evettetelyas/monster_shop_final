@@ -14,4 +14,6 @@ Monster Shop was designed to be a fun and easy to user interface. Flash messages
 Logic is carefully organized utilizing MVC structure. All database logic is contained within the model, and views never contain computation. Monster shop utlizes view partials to ensure the source code is as DRY as possible. 
 
 # Database Schema
-![db-schema](https://i.ibb.co/pjxTsH7/Screen-Shot-2019-09-15-at-4-46-21-PM.png)
+![db-schema](https://i.ibb.co/pjxTsH7/Screen-Shot-2019-09-15-at-4-46-21-PM.png) 
+
+

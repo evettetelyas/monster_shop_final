@@ -38,19 +38,19 @@ class UsersController <ApplicationController
   end
 
   def update
-    user = User.find(session[:user_id])
-    address = user.addresses.first
-    if user.update(profile_params) && address.update(update_address_params)
+    @user = User.find(session[:user_id])
+    @address = @user.addresses.first
+    if @user.update(profile_params) && @address.update(update_address_params)
       flash[:success] = 'Profile updated'
       redirect_to '/profile'
-    elsif !user.update(profile_params) && address.update(update_address_params)
-      flash[:error] = user.errors.full_messages.uniq.to_sentence
+    elsif !@user.update(profile_params) && @address.update(update_address_params)
+      flash[:error] = @user.errors.full_messages.uniq.to_sentence
       redirect_to '/profile/edit'
-    elsif user.update(profile_params) && !address.update(update_address_params)
-      flash[:error] = address.errors.full_messages.uniq.to_sentence
+    elsif @user.update(profile_params) && !@address.update(update_address_params)
+      flash[:error] = @address.errors.full_messages.uniq.to_sentence
       redirect_to '/profile/edit'
     else
-      flash[:error] = (address.errors.full_messages + user.errors.full_messages).uniq.to_sentence
+      flash[:error] = (@address.errors.full_messages + @user.errors.full_messages).uniq.to_sentence
       redirect_to '/profile/edit'
     end
   end
@@ -96,18 +96,18 @@ class UsersController <ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name,:email,:password,:password_confirmation)
+    params.permit(:name,:email,:password,:password_confirmation)
   end
 
   def address_params
-    params.require(:user).permit(:name,:address,:city,:state,:zip,:nickname)
+    params.permit(:name,:address,:city,:state,:zip,:nickname)
   end
 
   def profile_params
-    params.require(:users_edit).permit(:name,:address,:city,:state,:zip,:email)
+    params.permit(:name,:email)
   end
 
   def update_address_params
-    params.require(:users_edit).permit(:name,:address,:city,:state,:zip)
+    params.permit(:name,:address,:city,:state,:zip)
   end
 end

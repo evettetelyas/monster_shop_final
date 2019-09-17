@@ -1,19 +1,17 @@
 <center>
     <h2>Edit Your Profile</h2>
-    <%= form_for :users_edit, method: :patch do |f| %>
-      <%= f.label :name %>
-      <%= f.text_field :name, value: @user.name %>
-      <%= f.label :address %>
-      <%= f.text_field :address, value: @address.address %>
-      <%= f.label :city %>
-      <%= f.text_field :city, value: @address.city %>
-      <%= f.label :state %>
-      <%= f.text_field :state, value: @address.state %>
-      <%= f.label :zip %>
-      <%= f.text_field :zip, value: @address.zip %>
-      <%= f.label :email %>
-      <%= f.email_field :email, value: @user.email %>
-      <%= f.submit 'Update Profile' %>
-  <% end %>
-
+    <%= form_tag profile_edit_path, method: :patch %>
+      <%= label_tag :name %>
+      <%= text_field_tag :name, @user.name %>
+      <%= label_tag :address %>
+      <%= text_field_tag :address, @address.address %>
+      <%= label_tag :city %>
+      <%= text_field_tag :city, @address.city %>
+      <%= label_tag :state %>
+      <%= text_field_tag :state, @address.state %>
+      <%= label_tag :zip %>
+      <%= text_field_tag :zip, @address.zip %>
+      <%= label_tag :email %>
+      <%= email_field_tag :email, @user.email %>
+      <%= submit_tag 'Update Profile' %>
 </center>

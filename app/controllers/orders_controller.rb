@@ -7,6 +7,7 @@ class OrdersController <ApplicationController
   def new
     user = User.find(session[:user_id])
     @addresses = user.addresses
+    @coupon = Coupon.find_by(name: session[:coupon_code])
   end
 
   def cancel_item_orders(order)
@@ -48,6 +49,12 @@ class OrdersController <ApplicationController
         price: item.price
         })
     end
+    if session[:coupon_code]
+      coupon = Coupon.find_by(name: session[:coupon_code])
+      order.update(coupon_code: session[:coupon_code])
+      order.update_coupon_discounts(coupon)
+      order.save
+    end
   end
 
   def create
@@ -55,26 +62,10 @@ class OrdersController <ApplicationController
     address = Address.find(params[:address].to_i)
     order = user.orders.create(address: address)
     create_item_orders(order)
-    order.update(grand_total: order.grandtotal)
-    if coupon = Coupon.find_by(name: params[:coupon_code])
-      if coupon.has_order_items?(order)
-        order.update(coupon_code: params[:coupon_code])
-        order.update_coupon_discounts
-        session.delete(:cart)
-        redirect_to "/profile/orders"
-        flash[:success] = "Your coupon was applied to your grand total homie"
-      else
-        flash[:error] = "Not a valid code, yo. Try again."
-        redirect_to "/orders/new"
-      end
-    elsif !params[:coupon_code].nil?
-      session.delete(:cart)
-      redirect_to "/profile/orders"
-      flash[:success] = "Thank You For Your Order!"
-    else
-      flash[:error] = "Not a valid code, yo. Try again."
-      redirect_to "/orders/new"
-    end
+    session.delete(:cart)
+    session[:coupon_code] = nil
+    redirect_to "/profile/orders"
+    flash[:success] = "Thank You For Your Order!"
   end
 
   def ship

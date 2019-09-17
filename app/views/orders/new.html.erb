@@ -11,17 +11,40 @@
   <% cart.items.each do |item, quantity| %>
     <tr id='order-item-<%= item.id%>'>
       <td><h2><%= link_to item.name, "/items/#{item.id}", class: "reg-link" %></h2></td>
-      <td><p><%= number_to_currency(item.price) %></p></td>
+      <% if session[:coupon_code] && @coupon.percent > 0 && cart.has_merchant_items?(@coupon.merchant_id) %>
+        <td><p><strike><%= number_to_currency(item.price) %></strike> <%= number_to_currency cart.discount_price_percent(@coupon.percent, @coupon.merchant_id)[item] %></p></td>
+      <% else %>
+        <td><p><%= number_to_currency(item.price) %></p></td>
+      <% end %>
       <td><p><%= quantity %></p></td>
-      <td><p><%= number_to_currency(cart.subtotal(item)) %></p></td>
+      <% if session[:coupon_code] && @coupon.percent > 0 && cart.has_merchant_items?(@coupon.merchant_id) %>
+        <td><p><strike><%= number_to_currency(cart.subtotal(item)) %></strike> <%= number_to_currency cart.subtotal_discount(item, @coupon.percent, @coupon.merchant_id) %></p></td>
+      <% else %>
+        <td><p><%= number_to_currency(cart.subtotal(item)) %></p></td>
+      <% end %>
       <td><p><%= link_to item.merchant.name, "/merchants/#{item.merchant_id}", class: "reg-link" %></p></td>
       <td><p><%= item.inventory %> in stock</p></td>
     </tr>
   <% end %>
 </table>
-<h3 align = "right">Total: <%= number_to_currency(cart.total)%></h3>
+<% if session[:coupon_code] && @coupon.percent > 0 && cart.has_merchant_items?(@coupon.merchant_id) %>
+  <h3 align = "right">Total: <%= number_to_currency(cart.total_discount_percent(@coupon.percent, @coupon.merchant_id))%></h3>
+<% elsif session[:coupon_code] && @coupon.amount > 0 && cart.has_merchant_items?(@coupon.merchant_id) %>
+  <h3 align = "right">Total: <strike><%= number_to_currency(cart.total)%></strike><%= number_to_currency(cart.discount_amount(@coupon.amount))%></h3>
+<% else %>
+  <h3 align = "right">Total: <%= number_to_currency(cart.total)%></h3>
+<% end %>
 
 <center>
+<%= form_tag "/cart/apply_coupon", method: :patch do %>
+<%= label_tag :coupon_code, "Maximize yo discounts with a coupon!" %>
+<% if session[:coupon_code] %>
+  <p>Coupon Applied: <%= @coupon.name %></p>
+<% end %>
+<%= text_field_tag :coupon_code %>
+<%= submit_tag "Check yo discounts" %>
+<% end %>
+
   <section id="submit-order-with-address">
     <% if @addresses.empty? %>
       <h3><%= link_to "Add an Address to Checkout", "/profile/addresses/new", class: "btn-small" %></h3>
@@ -29,8 +52,8 @@
     <%= form_tag(orders_path) do %>
       <h3>Select an address:</h3>
       <%= select_tag "address", options_from_collection_for_select(@addresses, "id", "nickname") %>
-      <%= label_tag :coupon_code, "Got a coupon code?" %>
-      <%= text_field_tag :coupon_code %>
+      <!-- < %= label_tag :coupon_code, "Got a final coupon code?" %>
+      < %= text_field_tag :coupon_code %> -->
       <%= submit_tag "Create Order", class: 'btn', id: 'green-btn' %>
       <% end %>
     <% end %>

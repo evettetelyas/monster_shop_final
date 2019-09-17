@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   post '/cart/:item_id', to: 'cart#add_item'
   get '/cart', to: 'cart#show'
+  patch '/cart/apply_coupon', to: 'cart#apply_coupon'
   delete '/cart', to: 'cart#empty'
   delete '/cart/:item_id', to: 'cart#remove_item'
   patch '/cart/:item_id/:increment_decrement', to: 'cart#increment_decrement'

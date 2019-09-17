@@ -40,8 +40,7 @@ class Order <ApplicationRecord
     self.update(status: 1) if item_orders.pluck(:status).all? {|status| status == "fulfilled"}
   end
 
-  def update_coupon_discounts
-    coupon = Coupon.find_by(name: self.coupon_code)
+  def update_coupon_discounts(coupon)
     merchant_items = ItemOrder.where(item_id: items.where(merchant_id: coupon.merchant_id).ids, order_id: self.id)
     if coupon.percent > 0 && coupon.status == "active"
       merchant_items.each do |io|

@@ -1,1 +1,31 @@
 <%= render  partial: 'partials/merchant_dash' %>
+<center>
+    <h1>Coupon Codes</h1>
+    <table class="merchant-orders-table">
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Change Status</th>
+            <th>Percent Off</th>
+            <th>Dollar Amount Off</th>
+            <th>Number of Redemptions</th>
+            <th>Edit</th>
+        </tr>
+        <% @coupons.each do |coupon| %>
+        <tr id="coupon-<%=coupon.id%>">
+                <td><%= coupon.name %></td>
+                <td><%= coupon.status %></td>
+                <% if coupon.status == "active" %>
+                <td><p><%= link_to "Deactivate", coupon_update_activity_path(coupon), class: 'btn-small', id: 'red-btn', method: :patch %></p></td>
+                <% elsif coupon.status == "inactive" %>
+                <td><p><%= link_to "Activate", coupon_update_activity_path(coupon), class: 'btn-small', id: 'green-btn',  method: :patch %></p></td>
+                <% end %>
+                <td><%= coupon.percent_off %></td>
+                <td><%= coupon.amount_off %></td>
+                <td><%= coupon.num_redemptions %></td>
+                <td><%= link_to "Edit Coupon", "/merchant/coupons/#{coupon.id}/edit", class: 'reg-link' %></td>
+            </tr>
+        <% end %>
+    </table>
+    <p><%= link_to "Generate a New Coupon Code", "/merchant/coupons/new", class: 'reg-link', class: 'btn' %></p>
+</center>

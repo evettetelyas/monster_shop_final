@@ -1,0 +1,16 @@
+<% if @merchant.coupons.count < 5 %>
+    <center>
+        <h1>Generate a fresh new coupon, yo!!!</h1>
+        <%= form_for [@merchant,@coupon], url: merchant_coupons_path do |f| %>
+        <%= f.label :name, "Name" %>
+        <%= f.text_field :name %>
+        <%= f.label :percent, "Percent off total" %>
+        <%= f.text_field :percent %>
+        <%= f.label :amount, "Dollar amount off total" %>
+        <%= f.text_field :amount %>
+        <%= f.submit %>
+        <% end %>
+    </center>      
+<% else %>
+      <center><h1>Max 5 codes allowed, sry yo.</h1></center>
+<% end %>

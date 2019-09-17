@@ -7,6 +7,7 @@ class Merchant::DashboardController < Merchant::BaseController
       @user = User.find(session[:user_id])
       @merchant = @user.merchant
       @pending_orders = @merchant.pending_orders
+      @coupons = @merchant.coupons
       session[:merchant_id] = @merchant.id
     end
   end

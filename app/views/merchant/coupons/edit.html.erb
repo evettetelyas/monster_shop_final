@@ -1,0 +1,17 @@
+<center>
+    <h1>Edit yo Coupon</h1>
+    <%= form_for [@coupon], url: "/merchant/coupons/#{@coupon.id}" do |f| %>
+    <%= f.label :name, "Name" %>
+    <%= f.text_field :name %>
+    <%= f.label :percent, "Percent off total" %>
+    <%= f.text_field :percent %>
+    <%= f.label :amount, "Dollar amount off total" %>
+    <%= f.text_field :amount %>
+    <%= f.submit %>
+    <% end %>
+
+    <% if @coupon.num_redemptions == 0 %>
+        <h1><%= link_to  "Delete Coupon", "/merchant/coupons/#{@coupon.id}", method: :delete, class: 'btn-small' %></h1>      
+    <% end %>
+
+</center>

@@ -50,6 +50,12 @@ Rails.application.routes.draw do
   get '/merchant', to: 'merchant/dashboard#index', as: :merchant_dash
   get '/merchant/items', to: 'merchant/dashboard#items'
   get '/merchant/items/new', to: 'merchant/items#new'
+  get '/merchant/coupons/new', to: 'merchant/coupons#new'
+  post '/merchant/coupons', to: 'merchant/coupons#create'
+  get '/merchant/coupons/:id/edit', to: 'merchant/coupons#edit'
+  patch '/merchant/coupons/:id/', to: 'merchant/coupons#update'
+  patch '/merchant/coupons/:id/activity', to: 'merchant/coupons#change_status', as: :coupon_update_activity
+  delete '/merchant/coupons/:id/', to: 'merchant/coupons#destroy'
   get '/merchant/items/:id/edit', to: 'merchant/items#edit', as: :merchant_edit_item
   post '/merchant/items', to: 'merchant/items#create', as: :merchant_new_item
   patch '/merchant/items/:id/activity', to: 'merchant/items#update_activity', as: :merchant_update_item_activity

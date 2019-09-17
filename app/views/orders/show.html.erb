@@ -42,13 +42,13 @@
         <td><p><%=link_to item_order.item.name, "/items/#{item_order.item_id}", class: "reg-link" %></p></td>
         <td><p><%= item_order.item.description %></p></td>
         <td><p><%= link_to item_order.item.merchant.name, "/merchants/#{item_order.item.merchant.id}", class: "reg-link" %></p></td>
-        <% if !@coupon.nil? && @coupon.percent > 0 %>
+        <% if !@coupon.nil? && @coupon.percent > 0 && (item_order.item.merchant_id == @coupon.merchant_id) %>
         <td><p><strike><%= number_to_currency(Item.find(item_order.item_id).price) %></strike> <%= number_to_currency(item_order.price)%></p></td>
         <% else %>
           <td><p><%= number_to_currency(item_order.price)%></p></td>
         <% end %>
         <td><p><%= item_order.quantity%></p></td>
-        <% if !@coupon.nil? && @coupon.percent > 0 %>
+        <% if !@coupon.nil? && @coupon.percent > 0 && (item_order.item.merchant_id == @coupon.merchant_id) %>
         <td><p><strike><%= number_to_currency(Item.find(item_order.item_id).price * item_order.quantity) %></strike> <%= number_to_currency(item_order.price)%></p></td>
         <% else %>
           <td><p><%= number_to_currency(item_order.subtotal)%></p></td>

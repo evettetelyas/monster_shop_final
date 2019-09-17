@@ -11,13 +11,13 @@
   <% cart.items.each do |item, quantity| %>
     <tr id='order-item-<%= item.id%>'>
       <td><h2><%= link_to item.name, "/items/#{item.id}", class: "reg-link" %></h2></td>
-      <% if session[:coupon_code] && @coupon.percent > 0 && cart.has_merchant_items?(@coupon.merchant_id) %>
+      <% if session[:coupon_code] && @coupon.percent > 0 && cart.has_merchant_items?(@coupon.merchant_id) && item.merchant_id == @coupon.merchant_id %>
         <td><p><strike><%= number_to_currency(item.price) %></strike> <%= number_to_currency cart.discount_price_percent(@coupon.percent, @coupon.merchant_id)[item] %></p></td>
       <% else %>
         <td><p><%= number_to_currency(item.price) %></p></td>
       <% end %>
       <td><p><%= quantity %></p></td>
-      <% if session[:coupon_code] && @coupon.percent > 0 && cart.has_merchant_items?(@coupon.merchant_id) %>
+      <% if session[:coupon_code] && @coupon.percent > 0 && cart.has_merchant_items?(@coupon.merchant_id)  && item.merchant_id == @coupon.merchant_id %>
         <td><p><strike><%= number_to_currency(cart.subtotal(item)) %></strike> <%= number_to_currency cart.subtotal_discount(item, @coupon.percent, @coupon.merchant_id) %></p></td>
       <% else %>
         <td><p><%= number_to_currency(cart.subtotal(item)) %></p></td>

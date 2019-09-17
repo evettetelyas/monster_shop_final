@@ -32,5 +32,12 @@ describe User, type: :model do
     it "should send password reset" do
       @sue.send_password_reset
     end
+
+    it "shows if user used a coupon" do
+      coupon = @dog_shop.coupons.create(name: "20OFF", amount: 20)
+      order = @sue.orders.create(address: @sue_addy, coupon_code: coupon.name)
+
+      expect(@sue.used_this_coupon?(coupon)).to be true
+    end
   end
 end

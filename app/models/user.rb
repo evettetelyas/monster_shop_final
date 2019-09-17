@@ -13,6 +13,10 @@ class User < ApplicationRecord
 
     has_secure_password
 
+    def used_this_coupon?(coupon)
+      self.orders.pluck(:coupon_code).any? {|code| code == coupon.name}
+    end
+
     def send_password_reset
       generate_token(:password_reset_token)
       self.password_reset_sent_at = Time.zone.now

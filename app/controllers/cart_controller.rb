@@ -35,12 +35,13 @@ class CartController < ApplicationController
   end
 
   def apply_coupon
+    user = User.find(session[:user_id])
     if coupon = Coupon.find_by(name: params[:coupon_code])
-      if coupon.percent > 0 && coupon.status == "active" && cart.has_merchant_items?(coupon.merchant_id)
+      if (coupon.percent > 0 && coupon.status == "active" && cart.has_merchant_items?(coupon.merchant_id) && user.used_this_coupon?(coupon) == false)
         cart.discount_price_percent(coupon.percent, coupon.merchant_id)
         session[:coupon_code] = coupon.name
         flash[:success] = "Coupon applied homie"
-      elsif coupon.amount > 0 && (cart.total >= coupon.amount) && coupon.status == "active" && cart.has_enough_merchant_stuff?(coupon.amount, coupon.merchant_id)
+      elsif (coupon.amount > 0 && (cart.total >= coupon.amount) && coupon.status == "active" && cart.has_enough_merchant_stuff?(coupon.amount, coupon.merchant_id) && user.used_this_coupon?(coupon) == false)
         cart.discount_amount(coupon.amount)
         session[:coupon_code] = coupon.name
         flash[:success] = "Coupon applied homie"
@@ -52,6 +53,9 @@ class CartController < ApplicationController
         session[:coupon_code] = nil
       elsif !cart.has_enough_merchant_stuff?(coupon.amount, coupon.merchant_id)
         flash[:error] = "you're a cheapo that's not how this works. add more things from the coupon's merchant."
+        session[:coupon_code] = nil
+      elsif user.used_this_coupon?(coupon) == true
+        flash[:error] = "you already used this code, homie"
         session[:coupon_code] = nil
       end
     else

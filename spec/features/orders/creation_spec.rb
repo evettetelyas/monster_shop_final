@@ -77,6 +77,33 @@ RSpec.describe("Order Creation") do
       expect(current_path).to eq("/profile/orders")
     end
 
+    it "only uses a coupon once" do
+    
+      visit "/items/#{@tire.id}"
+      click_on "Add To Cart"
+
+      visit "/cart"
+      click_on "Checkout"
+
+      fill_in "Maximize yo discounts with a coupon!", with: @coupon_1.name
+      click_on "Check yo discounts"
+
+      
+      click_on "Create Order"
+
+      visit "/items/#{@tire.id}"
+      click_on "Add To Cart"
+
+      visit "/cart"
+      click_on "Checkout"
+
+      fill_in "Maximize yo discounts with a coupon!", with: @coupon_1.name
+      click_on "Check yo discounts"
+
+      expect(page).to have_content("you already used this code, homie")
+    end
+
+
     it "won't create a new order with a amount off coupon for another merchant" do
     
       visit "/items/#{@paper.id}"

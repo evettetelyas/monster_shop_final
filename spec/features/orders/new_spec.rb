@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe("New Order Page") do
   describe "When I check out from my cart" do
     before(:each) do
@@ -58,7 +60,7 @@ RSpec.describe("New Order Page") do
         expect(page).to have_content("1")
         expect(page).to have_content("$2")
       end
-
+      
       expect(page).to have_content("Total: $142")
     end
   end

@@ -33,4 +33,31 @@ class CartController < ApplicationController
     end
     redirect_to "/cart"
   end
+
+  def apply_coupon
+    if coupon = Coupon.find_by(name: params[:coupon_code])
+      if coupon.percent > 0 && coupon.status == "active" && cart.has_merchant_items?(coupon.merchant_id)
+        cart.discount_price_percent(coupon.percent, coupon.merchant_id)
+        session[:coupon_code] = coupon.name
+        flash[:success] = "Coupon applied homie"
+      elsif coupon.amount > 0 && (cart.total >= coupon.amount) && coupon.status == "active" && cart.has_enough_merchant_stuff?(coupon.amount, coupon.merchant_id)
+        cart.discount_amount(coupon.amount)
+        session[:coupon_code] = coupon.name
+        flash[:success] = "Coupon applied homie"
+      elsif coupon.status == "inactive"
+        flash[:error] = "Nah this code is expired yo"
+        session[:coupon_code] = nil
+      elsif !cart.has_merchant_items?(coupon.merchant_id)
+        flash[:error] = "you cant use a merchant's code for other people's stuff"
+        session[:coupon_code] = nil
+      elsif !cart.has_enough_merchant_stuff?(coupon.amount, coupon.merchant_id)
+        flash[:error] = "you're a cheapo that's not how this works. add more things from the coupon's merchant."
+        session[:coupon_code] = nil
+      end
+    else
+      flash[:error] = "that's not a real code"
+      session[:coupon_code] = nil
+    end
+    redirect_to new_order_path
+  end
 end

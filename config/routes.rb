@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   post '/cart/:item_id', to: 'cart#add_item'
   get '/cart', to: 'cart#show'
+  patch '/cart/apply_coupon', to: 'cart#apply_coupon'
   delete '/cart', to: 'cart#empty'
   delete '/cart/:item_id', to: 'cart#remove_item'
   patch '/cart/:item_id/:increment_decrement', to: 'cart#increment_decrement'
@@ -50,6 +51,12 @@ Rails.application.routes.draw do
   get '/merchant', to: 'merchant/dashboard#index', as: :merchant_dash
   get '/merchant/items', to: 'merchant/dashboard#items'
   get '/merchant/items/new', to: 'merchant/items#new'
+  get '/merchant/coupons/new', to: 'merchant/coupons#new'
+  post '/merchant/coupons', to: 'merchant/coupons#create'
+  get '/merchant/coupons/:id/edit', to: 'merchant/coupons#edit'
+  patch '/merchant/coupons/:id/', to: 'merchant/coupons#update'
+  patch '/merchant/coupons/:id/activity', to: 'merchant/coupons#change_status', as: :coupon_update_activity
+  delete '/merchant/coupons/:id/', to: 'merchant/coupons#destroy'
   get '/merchant/items/:id/edit', to: 'merchant/items#edit', as: :merchant_edit_item
   post '/merchant/items', to: 'merchant/items#create', as: :merchant_new_item
   patch '/merchant/items/:id/activity', to: 'merchant/items#update_activity', as: :merchant_update_item_activity

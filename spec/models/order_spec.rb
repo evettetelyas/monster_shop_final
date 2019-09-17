@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 describe Order, type: :model do
-  # describe "validations" do
-  #   it { should validate_presence_of :name }
-  #   it { should validate_presence_of :address }
-  #   it { should validate_presence_of :city }
-  #   it { should validate_presence_of :state }
-  #   it { should validate_presence_of :zip }
-  #   it { should validate_presence_of :status }
-  # end
 
   describe "relationships" do
     it {should have_many :item_orders}
@@ -28,8 +20,8 @@ describe Order, type: :model do
       @user = create(:user)
       @address = create(:address)
       @order_1 = @user.orders.create!(address: @address)
-      @order_1.item_orders.create(item: @tire, price: @tire.price, quantity: 2)
-      @order_1.item_orders.create(item: @pull_toy, price: @pull_toy.price, quantity: 3)
+      @io_1 = @order_1.item_orders.create(item: @tire, price: @tire.price, quantity: 2)
+      @io_2 = @order_1.item_orders.create(item: @pull_toy, price: @pull_toy.price, quantity: 3)
     end
 
     it '#grandtotal' do
@@ -72,5 +64,23 @@ describe Order, type: :model do
 
       expect(@order_1.status).to eq('packaged')
     end
+
+    it "updates for a $ off coupon" do
+      twenty = @meg.coupons.create(name: "20OFF", amount: 20)
+      @order_1.update(coupon_code: twenty.name)
+
+      @order_1.update_coupon_discounts(twenty)
+
+      expect(@order_1.grand_total).to eq(210)
+    end
+
+    it "updates for percent off coupon" do
+      twentyp = @meg.coupons.create(name: "20%OFF", percent: 20)
+      @order_1.update(coupon_code: twentyp.name)
+      @order_1.update_coupon_discounts(twentyp)
+
+      expect(@order_1.grandtotal).to eq(190)
+    end
+
   end
 end

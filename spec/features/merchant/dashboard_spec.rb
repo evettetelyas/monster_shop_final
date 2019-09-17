@@ -8,7 +8,7 @@ describe 'Merchant employee or admin visits their dashboard' do
 
     @user = create(:user)
     @address = create(:address)
-    @sue = @dog_shop.users.create(name: 'Sue', address: '12345 C St', city: 'Los Angeles', state: 'CA', zip: 90210, email: 'sue@email.com', password: 'sue', password_confirmation: 'sue', role: 3)
+    @sue = @dog_shop.users.create(name: 'Sue', email: 'sue@email.com', password: 'sue', password_confirmation: 'sue', role: 3)
 
     @order_1 = @user.orders.create(address: @address)
     @io1 = ItemOrder.create(item: @pull_toy, order: @order_1, price: @pull_toy.price, quantity: 5)

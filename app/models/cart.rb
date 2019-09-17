@@ -86,9 +86,9 @@ class Cart
     total = 0
     item_ids = @contents.keys.select {|item_id| Item.find(item_id.to_i).merchant_id == id.to_i}
     item_ids.each do |id|
-      total += @contents[id.to_s]
+      total += (Item.find(id.to_i).price * @contents[id.to_s])
     end
-    return true if total > amount
+    return true if total >= amount
   end
 
   def discount_amount(amount)

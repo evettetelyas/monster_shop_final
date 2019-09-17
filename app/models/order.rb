@@ -47,6 +47,7 @@ class Order <ApplicationRecord
         io.update(price: io.price - (io.price * (coupon.percent * 0.01)))
         io.save
       end
+      merchant_items
     end
     if coupon.amount > 0 && (merchant_items.sum('price * quantity') >= coupon.amount) && coupon.status == "active"
       self.update(grand_total: (item_orders.sum('price * quantity') - coupon.amount) )

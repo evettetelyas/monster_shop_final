@@ -56,6 +56,34 @@ describe Cart do
     @cart = Cart.new({@pull_toy.id.to_s => 1, @dog_bone.id.to_s => 2})
   end
 
+  it "discounts a dollar amount" do
+    expect(@cart.discount_amount(20)).to eq(32)
+  end
+
+  it "has enough merchant stuff to apply an amount discount" do
+    expect(@cart.has_enough_merchant_stuff?(20, @dog_shop.id)).to be true
+  end
+
+  it "generates the total for a discount percentage" do
+    expect(@cart.total_discount_percent(20, @dog_shop.id)).to eq(41.6)
+  end
+
+  it "generates subtotal for a percent discount" do
+    expect(@cart.subtotal_discount(@pull_toy, 20, @dog_shop.id)).to eq(8.0)
+  end
+
+  it "discounts for percentage" do
+    merchant_2 = Merchant.create(name: "Not a Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
+    thing = merchant_2.items.create(name: "Thing", description: "Great thing!", price: 10, image: "thing.jpg", inventory: 3)
+    cart_2 = Cart.new({@pull_toy.id.to_s => 1, @dog_bone.id.to_s => 2, thing.id.to_s => 1})
+
+    expect(cart_2.discount_price_percent(20, @dog_shop.id)).to eq({@pull_toy => 8.0, @dog_bone => 16.8, thing => 10})
+  end
+
+  it "has merchant items" do
+    expect(@cart.has_merchant_items?(@dog_shop.id)).to be true
+  end
+
   it "can calculate subtotals" do
     expect(@cart.subtotal(@pull_toy)).to eq(10)
     expect(@cart.subtotal(@dog_bone)).to eq(42)

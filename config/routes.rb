@@ -48,29 +48,30 @@ Rails.application.routes.draw do
   patch '/profile/addresses/:id', to: 'addresses#update'
   get '/profile/addresses/:id/edit', to: 'addresses#edit', as: :edit_address
 
+  namespace :merchant do
+    resource :items, only: [:new, :create]
+    resource :coupons, except: [:show]
+  end
+
   get '/merchant', to: 'merchant/dashboard#index', as: :merchant_dash
   get '/merchant/items', to: 'merchant/dashboard#items'
-  get '/merchant/items/new', to: 'merchant/items#new'
-  get '/merchant/coupons/new', to: 'merchant/coupons#new'
-  post '/merchant/coupons', to: 'merchant/coupons#create'
-  get '/merchant/coupons/:id/edit', to: 'merchant/coupons#edit'
-  patch '/merchant/coupons/:id/', to: 'merchant/coupons#update'
   patch '/merchant/coupons/:id/activity', to: 'merchant/coupons#change_status', as: :coupon_update_activity
-  delete '/merchant/coupons/:id/', to: 'merchant/coupons#destroy'
   get '/merchant/items/:id/edit', to: 'merchant/items#edit', as: :merchant_edit_item
-  post '/merchant/items', to: 'merchant/items#create', as: :merchant_new_item
   patch '/merchant/items/:id/activity', to: 'merchant/items#update_activity', as: :merchant_update_item_activity
   patch '/merchant/items/:id', to: 'merchant/items#update', as: :merchant_update_item
   delete '/merchant/items/:id', to: 'merchant/items#destroy', as: :merchant_delete_item
   get '/merchant/orders/:id', to: 'merchant/dashboard#order_show', as: :merchant_order_show
   post '/merchant/orders/:order_id/items/:item_id', to: 'merchant/items#fulfill_item', as: :merchant_fulfill_item
 
+  namespace :admin do
+    resources :users, only: [:index]
+    resources :merchants, only: [:update]
+  end
+
   get '/admin', to: 'admin/dashboard#index', as: :admin_dash
-  get '/admin/users', to: 'admin/users#index'
   get '/admin/users/:id', to: 'users#show'
   get '/admin/merchants/:id', to: 'admin/merchants#index'
   get '/admin/users/:user_id/orders/:order_id', to: 'orders#show'
-  patch '/admin/merchants/:id', to: 'admin/merchants#update'
 
   resources :password_resets
 
